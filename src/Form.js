@@ -52,6 +52,7 @@ const Form = (props) => {
             column={15}
             placeholder="Enter Text"
             name="text"
+            
             value={note.text}
             onChange={handleInput}
           />
