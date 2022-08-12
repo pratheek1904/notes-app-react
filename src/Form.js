@@ -1,59 +1,70 @@
-import React, { useState } from 'react'
-// import NoteList from './NoteList';
+import React, { useState } from "react";
 
-const Form = () => {
-    const [Title,setTitle]=useState("");
-    const [Text,setText]=useState("");
-    const [Notes,setNotes]=useState([])
 
-    const handleTitle=e=>{
-        setTitle(e.target.value)
-    }
+const Form = (props) => {
+  const [note, setNote] = useState({
+    title: "",
+    text: "",
+  });
 
-    const handleText=e=>{
-         setText(e.target.value)
-     }
-      const handleAdd=event=>{
-         event.preventDefault();
-        //  setNotes((Notes)=>{
-        //     return(
-        //         [...Notes,{
-        //             Title:Title,
-        //            Text:Text,
-        //            id:new Date().getTime()
-        //         }]
-        //     )
-        //  })
-      }
-    
+  const handleInput = (e) => {
+    const { name, value } = e.target;
+    setNote((prevData) => {
+      return {
+        ...prevData,
+        [name]: value,
+      };
+    });
+    console.log(note);
+  };
+
+  const handleAdd = (event) => {
+    event.preventDefault();
+    props.passNote(note);
+    setNote({
+        title: "",
+        text: "",
+    })
+  };
+
   return (
-    <div>
-        <form>
-            <div>
-                <label>Enter the Title</label><br></br>
-                <input type="text"placeholder='Enter Title' value={Title} onChange={handleTitle} /><br/>
-            </div>
+    <div className="main-note">
+      <form>
+        <div>
+        <label>Enter the Title</label>
+          <br></br>
+          <input
+            type="text"
+            placeholder="Enter Title"
+            name="title"
+            value={note.title}
+            onChange={handleInput}
+          />
+          <br />
+        </div>
 
-            <div>
-                <label>Enter the text</label><br/>
-                <textarea type="text " 
-                placeholder='Enter Text'
-                value={Text} onChange={handleText}/>
-            </div>
+        <div>
+          <label>Enter the text</label>
+          <br />
+          <textarea
+            type="text "
+            rows="5"
+            column={15}
+            placeholder="Enter Text"
+            name="text"
+            value={note.text}
+            onChange={handleInput}
+          />
+        </div>
 
-            <div>
-                <button value={handleAdd} >Add Notes</button>
-            </div>
-
-            <div >
-                <h1>Your Notes</h1><hr/>
-                <p>No notes were added, please add a note</p>
-            </div>
-            {/* <NoteList/> */}
-
-      </form>
+        <div>
+          <button onClick={handleAdd}>Add Notes</button>
+        </div>
+        </form>
+    
+ 
     </div>
-  )
-}
+  );
+};
 
-export default Form
+export default Form;

@@ -1,8 +1,27 @@
 import React from 'react'
 
-const NoteList = () => {
+const NoteList = (props) => {
+
+  
+
+  const deleteNote=()=>{
+    if(deleteNote){
+      alert(`Would you like to delete? title: ${props.title} and text: ${props.text}`)
+    }
+    props.deleteItem(props.id);
+
+  }
+  const editNote=()=>{
+ 
+  }
+  
   return (
     <div className='note-List'>
+      <h1>Your note </h1>
+      <h3>{props.title}</h3>
+      <p>{props.text}</p>
+      <button onClick={editNote} >Edit</button>
+      <button onClick={deleteNote}>Remove</button>
       
     </div>
   )
