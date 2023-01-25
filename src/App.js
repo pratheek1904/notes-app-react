@@ -4,6 +4,7 @@ import './App.css'
 import NoteList from './NoteList';
 
 const App = () => {
+  
   const [item,setItem]=useState([]);
 
    
@@ -24,16 +25,18 @@ const App = () => {
     );
    };
 
-  // const onEdit=(id)=>{
-  //  setItem(" ")
-  // }
+   const onEdit=(id)=>{
+    setItem( {
+      title: "",
+      text:""
+    })
+   }
+
 
   return (
     <div>
 <Form passNote={handleAdd}/>
-{/* {
-   editItem={onEdit}
-} */}
+
 
 {
 item.map((val,index)=>{
@@ -43,6 +46,7 @@ item.map((val,index)=>{
   title={val.title}
   text={val.text}
   deleteItem={onDelete}
+  
  
   />)
 

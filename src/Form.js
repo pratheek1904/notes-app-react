@@ -1,70 +1,99 @@
 import React, { useState } from "react";
+import './App.css'
 
+const Form = () => {
+  const [title, settitle] = useState("");
+  const [text, settext] = useState("");
+  const [note, setnote] = useState(false);
+  const [val, setval] = useState("You dont have any note");
 
-const Form = (props) => {
-  const [note, setNote] = useState({
-    title: "",
-    text: "",
-  });
+  const [myarray, setmyarray] = useState([]);
 
-  const handleInput = (e) => {
-    const { name, value } = e.target;
-    setNote((prevData) => {
-      return {
-        ...prevData,
-        [name]: value,
-      };
+  const handleSubmit = (e) => {
+    e.preventDefault();
+    if (title && text) {
+      const newarr = { id: new Date().getTime().toString(), title, text };
+      setmyarray([...myarray, newarr]);
+      settext("");
+      settitle("");
+      setval("");
+      setnote(true);
+    } else {
+      alert("enter the input first");
+    }
+  };
+
+  const handleRemove = (id) => {
+    const removed = myarray.filter((value) => {
+      return value.id !== id;
     });
-    console.log(note);
+    setmyarray(removed);
+    setnote(true)
   };
-
-  const handleAdd = (event) => {
-    event.preventDefault();
-    props.passNote(note);
-    setNote({
-        title: "",
-        text: "",
-    })
-  };
-
+const handleEdit=(id)=>{
+  const edit=myarray.filter((elem)=>{
+    return elem.id===id
+  })
+  console.log(edit)
+  settitle(edit[0].title)
+  settext(edit[0].text)
+  const removed = myarray.filter((value) => {
+    return value.id !== id;
+  });
+  setmyarray(removed);
+  setnote(true)
+}
   return (
-    <div className="main-note">
-      <form>
-        <div>
-        <label>Enter the Title</label>
-          <br></br>
+    <>
+      <div className="container">
+        <h1 className="title">Notes Application</h1> &nbsp;
+        <form onSubmit={handleSubmit} className="value">
           <input
+            className="text"
             type="text"
-            placeholder="Enter Title"
-            name="title"
-            value={note.title}
-            onChange={handleInput}
-          />
-          <br />
-        </div>
-
-        <div>
-          <label>Enter the text</label>
-          <br />
+            value={title}
+            onChange={(e) => settitle(e.target.value)}
+            placeholder="Enter title"/><br /><br />
           <textarea
-            type="text "
-            rows="5"
-            column={15}
-            placeholder="Enter Text"
-            name="text"
-            
-            value={note.text}
-            onChange={handleInput}
+            className="text"
+            type="text"
+            value={text}
+            onChange={(e) => settext(e.target.value)}
+            placeholder="Enter Description"
+            cols={20}
+            rows={5}
           />
-        </div>
-
-        <div>
-          <button onClick={handleAdd}>Add Notes</button>
-        </div>
+          <br />
+          <input className="button" type="submit" />
         </form>
-    
- 
-    </div>
+        <h1>{val}</h1>
+      </div>
+      <div className="destinations">
+        {note ? (
+          <div className="destination">
+            {myarray.map((elem) => {
+              return (
+                <div key={elem.id}>
+                  <h1>Your Notes</h1>
+                  <div>
+                    <h2>{elem.title}</h2>
+                    <p>{elem.text} </p>
+                    <button
+                      className="button"
+                      onClick={() => handleRemove(elem.id)}><i className="fa-solid fa-trash"></i></button>&nbsp;
+                    <button 
+                    className="button" 
+                    onClick={()=>handleEdit(elem.id)}><i className="fa-solid fa-pen-to-square"></i></button>
+                  </div>
+                </div>
+              );
+            })}
+          </div>
+        ) : (
+          ""
+        )}
+      </div>
+    </>
   );
 };
 
