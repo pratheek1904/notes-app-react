@@ -74,7 +74,7 @@ const handleEdit=(id)=>{
             {myarray.map((elem) => {
               return (
                 <div key={elem.id}>
-                  <h1>Your Notes</h1>
+                  <h1> Notes</h1>
                   <div>
                     <h2>{elem.title}</h2>
                     <p>{elem.text} </p>
